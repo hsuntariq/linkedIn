@@ -1,0 +1,34 @@
+:root {
+  --extra-small: 0.7rem;
+  --light-gray: #f3f2f0;
+  --text-medium: 2rem;
+  --label-size: 0.8rem;
+  --text-sm: 0.9rem;
+}
+
+.xs-small {
+  font-size: var(--extra-small) !important;
+}
+
+.sign-up-page {
+  background-color: var(--light-gray);
+  height: 100vh;
+}
+
+.text-md {
+  font-size: var(--text-medium);
+}
+
+.label {
+  font-size: var(--label-size);
+  color: rgb(111, 108, 108);
+  font-weight: 500;
+}
+
+.react-tel-input input {
+  width: 100% !important;
+}
+
+.text-sm {
+  font-size: var(--text-sm);
+}
