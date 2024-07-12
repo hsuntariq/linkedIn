@@ -1,12 +1,17 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button, Form } from "react-bootstrap";
-
-import axios from "axios";
-
+import { useDispatch, useSelector } from "react-redux";
+import { regUser, userReset } from "../../features/authentication/authSlice";
+import { MutatingDots } from "react-loader-spinner";
+import toast from "react-hot-toast";
 const Register = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { user, userLoading, userError, userSuccess, userMessage } =
+    useSelector((state) => state.auth);
   const [formFields, setFormFields] = useState({
     f_name: "",
     l_name: "",
@@ -14,6 +19,18 @@ const Register = () => {
     password: "",
     dob: "",
   });
+
+  useEffect(() => {
+    if (userError) {
+      toast.error(userMessage);
+    }
+
+    if (userSuccess || user) {
+      navigate("/");
+    }
+
+    dispatch(userReset());
+  }, [userError, userSuccess, user, dispatch]);
 
   // destructure
   const { f_name, l_name, email, password, dob } = formFields;
@@ -40,13 +57,29 @@ const Register = () => {
       phone: ph,
     };
 
-    const response = await axios.post(
-      "http://localhost:3001/api/user/register-user",
-      myData
-    );
-
-    console.log(response.data);
+    dispatch(regUser(myData));
   };
+
+  if (userLoading) {
+    return (
+      <div
+        style={{ height: "80vh" }}
+        className="d-flex justify-content-center align-items-center"
+      >
+        <MutatingDots
+          visible={true}
+          height="100"
+          width="100"
+          color="#6A9BD1"
+          secondaryColor="#6A9BD1"
+          radius="12.5"
+          ariaLabel="mutating-dots-loading"
+          wrapperStyle={{}}
+          wrapperClass=""
+        />
+      </div>
+    );
+  }
 
   return (
     <>

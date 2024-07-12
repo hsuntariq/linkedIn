@@ -12,7 +12,7 @@ import "./globals.css";
 import NotFound from "./pages/NotFound";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
-
+import { Toaster } from "react-hot-toast";
 const App = () => {
   return (
     <>
@@ -29,6 +29,7 @@ const App = () => {
 
           <Route path="*" element={<NotFound />} />
         </Routes>
+        <Toaster />
       </Router>
     </>
   );

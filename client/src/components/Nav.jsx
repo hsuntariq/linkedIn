@@ -10,8 +10,11 @@ import { MdGames } from "react-icons/md";
 import { MdLaptopMac } from "react-icons/md";
 import Button from "react-bootstrap/esm/Button";
 import { Link } from "react-router-dom";
-
+import { useSelector } from "react-redux";
+import { Typography } from "@mui/material";
+import ImageModal from "./userProfile/ImageModal";
 function Header() {
+  const { user } = useSelector((state) => state.auth);
   return (
     <Navbar expand="lg" className="col-xl-7 mx-auto ">
       <Container>
@@ -61,15 +64,26 @@ function Header() {
                 <p className="text-secondary m-0 p-0 xs-small">Get the app</p>
               </div>
             </Link>
-            <Link className="text-dark text-decoration-none" to="/sign-up">
-              {" "}
-              <p className="text-dark fw-medium m-0">Join now</p>
-            </Link>
-            <Link className="text-dark text-decoration-none" to="/sign-in">
-              <Button className="bg-transparent border border-primary rounded-pill p-2 px-4 text-primary fw-medium">
-                Sign In
-              </Button>
-            </Link>
+            {!user ? (
+              <>
+                <Link className="text-dark text-decoration-none" to="/sign-up">
+                  {" "}
+                  <p className="text-dark fw-medium m-0">Join now</p>
+                </Link>
+                <Link className="text-dark text-decoration-none" to="/sign-in">
+                  <Button className="bg-transparent border border-primary rounded-pill p-2 px-4 text-primary fw-medium">
+                    Sign In
+                  </Button>
+                </Link>
+              </>
+            ) : (
+              <>
+                <div className="d-flex align-items-center">
+                  <ImageModal />
+                  <Typography className="text-md">{user?.f_name}</Typography>
+                </div>
+              </>
+            )}
           </Nav>
         </Navbar.Collapse>
       </Container>
