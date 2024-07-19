@@ -10,3 +10,16 @@ export const registerUser = async (userData) => {
 
   return response.data;
 };
+
+export const logout = async () => {
+  return localStorage.removeItem("user");
+};
+
+export const loginUser = async (userData) => {
+  const response = await axios.post(`${base_url}/login-user`, userData);
+  if (response.data) {
+    localStorage.setItem("user", JSON.stringify(response.data));
+  }
+
+  return response.data;
+};

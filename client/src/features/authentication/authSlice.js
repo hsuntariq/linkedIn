@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { registerUser } from "./authService";
+import { loginUser, logout, registerUser } from "./authService";
 
 const isUserPresent = JSON.parse(localStorage.getItem("user"));
 
@@ -16,6 +16,28 @@ export const regUser = createAsyncThunk(
   async (userData, thunkAPI) => {
     try {
       return await registerUser(userData);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.response.data.error);
+    }
+  }
+);
+
+export const logUserOut = createAsyncThunk(
+  "auth/logout",
+  async (_, thunkAPI) => {
+    try {
+      return await logout();
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.response.data.error);
+    }
+  }
+);
+
+export const logUserIn = createAsyncThunk(
+  "login-user",
+  async (userData, thunkAPI) => {
+    try {
+      return await loginUser(userData);
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response.data.error);
     }
@@ -45,7 +67,32 @@ export const authSlice = createSlice({
         state.userMessage = action.payload;
       })
       .addCase(regUser.fulfilled, (state, action) => {
-        console.log(action.payload);
+        state.userLoading = false;
+        state.userSuccess = true;
+        state.user = action.payload;
+      })
+      .addCase(logUserOut.pending, (state, action) => {
+        state.userLoading = true;
+      })
+      .addCase(logUserOut.rejected, (state, action) => {
+        state.userLoading = false;
+        state.userError = true;
+        state.userMessage = action.payload;
+      })
+      .addCase(logUserOut.fulfilled, (state, action) => {
+        state.userLoading = false;
+        state.user = null;
+      })
+      .addCase(logUserIn.pending, (state, action) => {
+        state.userLoading = true;
+      })
+      .addCase(logUserIn.rejected, (state, action) => {
+        state.userLoading = false;
+        state.userError = true;
+        state.userMessage = action.payload;
+        state.user = null;
+      })
+      .addCase(logUserIn.fulfilled, (state, action) => {
         state.userLoading = false;
         state.userSuccess = true;
         state.user = action.payload;

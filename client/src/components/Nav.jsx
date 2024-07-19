@@ -10,13 +10,21 @@ import { MdGames } from "react-icons/md";
 import { MdLaptopMac } from "react-icons/md";
 import Button from "react-bootstrap/esm/Button";
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Typography } from "@mui/material";
+import { SlLogout } from "react-icons/sl";
+import { logUserOut } from "../features/authentication/authSlice";
 import ImageModal from "./userProfile/ImageModal";
+
 function Header() {
   const { user } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+  const handleLogout = () => {
+    dispatch(logUserOut());
+  };
+
   return (
-    <Navbar expand="lg" className="col-xl-7 mx-auto ">
+    <Navbar expand="lg" className="col-xl-7 mx-auto  ">
       <Container>
         <Navbar.Brand href="#home">
           <img
@@ -80,13 +88,23 @@ function Header() {
               <>
                 <div className="d-flex align-items-center">
                   <ImageModal />
-                  <Typography className="text-md">{user?.f_name}</Typography>
+
+                  <Typography className="text-md text-capitalize">
+                    {user?.f_name}
+                  </Typography>
                 </div>
               </>
             )}
           </Nav>
         </Navbar.Collapse>
       </Container>
+      <SlLogout
+        onClick={handleLogout}
+        size={25}
+        cursor="pointer"
+        color="red"
+        className=""
+      />
     </Navbar>
   );
 }

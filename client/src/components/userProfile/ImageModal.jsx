@@ -1,10 +1,13 @@
-import * as React from "react";
+import { useState } from "react";
 import Backdrop from "@mui/material/Backdrop";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import Fade from "@mui/material/Fade";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
+import { Input } from "@mui/material";
+import { FiPlusCircle } from "react-icons/fi";
+import toast from "react-hot-toast";
 
 const style = {
   position: "absolute",
@@ -18,10 +21,22 @@ const style = {
   p: 4,
 };
 
-export default function TransitionsModal() {
-  const [open, setOpen] = React.useState(false);
+export default function ImageModal() {
+  const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const [image, setImage] = useState(null);
+  const [imagePreview, setImagePreview] = useState(null);
+  const [imageLoading, setImageLoading] = useState(false);
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file.type.startsWith("image")) {
+      const imageURL = URL.createObjectURL(file);
+      setImagePreview(imageURL);
+    } else {
+      toast.error("Please select an image");
+    }
+  };
 
   return (
     <div>
@@ -49,12 +64,45 @@ export default function TransitionsModal() {
       >
         <Fade in={open}>
           <Box sx={style}>
-            <Typography id="transition-modal-title" variant="h6" component="h2">
-              Text in a modal
-            </Typography>
-            <Typography id="transition-modal-description" sx={{ mt: 2 }}>
-              Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-            </Typography>
+            {imagePreview ? (
+              <>
+                <img
+                  className="d-block mx-auto rounded-circle"
+                  height={200}
+                  width={200}
+                  src={imagePreview}
+                  alt=""
+                />
+              </>
+            ) : (
+              <>
+                <img
+                  className="d-block mx-auto rounded-circle"
+                  height={200}
+                  width={200}
+                  src="https://icons.veryicon.com/png/o/miscellaneous/two-color-webpage-small-icon/user-244.png"
+                  alt=""
+                />
+              </>
+            )}
+            <FiPlusCircle
+              className="position-absolute"
+              style={{
+                right: "30%",
+                top: "70%",
+              }}
+              size={30}
+            />
+            <input
+              type="file"
+              style={{
+                right: "0%",
+                top: "70%",
+                opacity: "0",
+              }}
+              onChange={handleImageChange}
+              className="position-absolute"
+            />
           </Box>
         </Fade>
       </Modal>
