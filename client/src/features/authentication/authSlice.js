@@ -1,5 +1,10 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { loginUser, logout, registerUser } from "./authService";
+import {
+  loginUser,
+  logout,
+  registerUser,
+  uploadUserImage,
+} from "./authService";
 
 const isUserPresent = JSON.parse(localStorage.getItem("user"));
 
@@ -38,6 +43,17 @@ export const logUserIn = createAsyncThunk(
   async (userData, thunkAPI) => {
     try {
       return await loginUser(userData);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.response.data.error);
+    }
+  }
+);
+
+export const userImageUpload = createAsyncThunk(
+  "image-upload",
+  async (imageData, thunkAPI) => {
+    try {
+      return await uploadUserImage(imageData);
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response.data.error);
     }
@@ -96,6 +112,20 @@ export const authSlice = createSlice({
         state.userLoading = false;
         state.userSuccess = true;
         state.user = action.payload;
+      })
+      .addCase(userImageUpload.pending, (state, action) => {
+        state.userLoading = true;
+      })
+      .addCase(userImageUpload.rejected, (state, action) => {
+        state.userLoading = false;
+        state.userError = true;
+        state.userMessage = action.payload;
+      })
+      .addCase(userImageUpload.fulfilled, (state, action) => {
+        state.userLoading = false;
+        state.userSuccess = true;
+        state.user = action.payload;
+        localStorage.setItem("user", JSON.stringify(action.payload));
       });
   },
 });

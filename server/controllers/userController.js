@@ -57,7 +57,22 @@ const loginUser = AsyncHanlder(async (req, res) => {
   }
 });
 
+const uploadImage = AsyncHanlder(async (req, res) => {
+  const user_id = req.params.user_id;
+  const { imageUrl } = req.body;
+  const findUser = await User.findOne({ _id: user_id });
+  if (!findUser) {
+    res.status(404);
+    throw new Error("Invalid Id");
+  } else {
+    findUser.image = imageUrl;
+    await findUser.save();
+    res.send(findUser);
+  }
+});
+
 module.exports = {
   registerUser,
   loginUser,
+  uploadImage,
 };

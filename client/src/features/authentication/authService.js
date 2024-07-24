@@ -23,3 +23,14 @@ export const loginUser = async (userData) => {
 
   return response.data;
 };
+
+export const uploadUserImage = async (imageData) => {
+  const response = await axios.post(
+    `${base_url}/upload-image/${imageData.user_id}`,
+    {
+      imageUrl: imageData.myImage,
+    }
+  );
+
+  return response.data;
+};

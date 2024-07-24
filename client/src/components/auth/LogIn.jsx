@@ -59,6 +59,27 @@ const LogIn = () => {
     dispatch(logUserIn(myData));
   };
 
+  if (userLoading) {
+    return (
+      <div
+        style={{ height: "80vh" }}
+        className="d-flex justify-content-center align-items-center"
+      >
+        <MutatingDots
+          visible={true}
+          height="100"
+          width="100"
+          color="#6A9BD1"
+          secondaryColor="#6A9BD1"
+          radius="12.5"
+          ariaLabel="mutating-dots-loading"
+          wrapperStyle={{}}
+          wrapperClass=""
+        />
+      </div>
+    );
+  }
+
   return (
     <>
       <div className="p-4 rounded-2 bg-white  col-xl-3 mx-auto col-lg-6 col-md-8">
