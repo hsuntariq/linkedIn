@@ -3,7 +3,11 @@
   --light-gray: #f3f2f0;
   --text-medium: 2rem;
   --label-size: 0.8rem;
-  --text-sm: 0.9rem;
+  --text-sm: 0.8rem;
+}
+
+body {
+  background-color: #f4f2ee !important;
 }
 
 .xs-small {
@@ -31,4 +35,29 @@
 
 .text-sm {
   font-size: var(--text-sm);
+}
+
+.user-profile-header {
+  background-image: url("https://static.licdn.com/aero-v1/sc/h/55k1z8997gh8dwtihm11aajyq");
+  padding: 2rem;
+}
+
+.user-image {
+  margin-top: -50px;
+}
+
+.post-input::placeholder {
+  color: rgb(69, 69, 69) !important;
+  font-weight: 500 !important;
+}
+
+.post-items {
+  padding: 5px 10px;
+  transition: all 0.2s;
+  border-radius: 10px;
+}
+
+.post-items:hover {
+  background-color: lightgray;
+  cursor: pointer;
 }
