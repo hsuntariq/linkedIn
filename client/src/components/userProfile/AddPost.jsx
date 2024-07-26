@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import UploadPostModal from "./UploadPostModal";
 
 const AddPost = () => {
   const { user } = useSelector((state) => state.auth);
+  const [caption, setCaption] = useState("");
   return (
     <>
       <div className="card p-3">
@@ -20,13 +21,15 @@ const AddPost = () => {
             alt="User image"
           />
           <input
+            value={caption}
+            onChange={(e) => setCaption(e.target.value)}
             type="text"
             className="form-control rounded-pill p-2 border-dark post-input "
             placeholder="Start a post,try writing with AI"
           />
         </div>
         <div className="d-flex mt-3 justify-content-between">
-          <UploadPostModal />
+          <UploadPostModal caption={caption} />
 
           <div className="d-flex align-items-center gap-1 post-items">
             <img

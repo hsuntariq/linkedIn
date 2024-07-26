@@ -20,6 +20,8 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use("/api/user/", require("./routes/userRoutes"));
 
+app.use("/api/post", require("./routes/postRoutes"));
+
 app.use(handler);
 
 app.listen(process.env.PORT, () =>

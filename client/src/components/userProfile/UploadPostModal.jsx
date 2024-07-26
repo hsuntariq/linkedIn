@@ -6,6 +6,9 @@ import { useState } from "react";
 import { IoMdClose } from "react-icons/io";
 import { toast } from "react-hot-toast";
 import axios from "axios";
+import { Oval } from "react-loader-spinner";
+import { useDispatch, useSelector } from "react-redux";
+import { uploadPostData } from "../../features/posts/postSlice";
 const style = {
   position: "absolute",
   top: "50%",
@@ -15,7 +18,9 @@ const style = {
   bgcolor: "background.paper",
 };
 
-export default function UploadPostModal() {
+export default function UploadPostModal({ caption }) {
+  const { user } = useSelector((state) => state.auth);
+
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -26,6 +31,8 @@ export default function UploadPostModal() {
   const [isDisabled, setIsDisabled] = useState(true);
 
   const [checkType, setCheckType] = useState(null);
+
+  const dispatch = useDispatch();
 
   const handleContentChange = (e) => {
     const file = e.target.files[0];
@@ -59,12 +66,29 @@ export default function UploadPostModal() {
         ? "https://api.cloudinary.com/v1_1/dwtsjgcyf/image/upload"
         : "https://api.cloudinary.com/v1_1/dwtsjgcyf/video/upload";
 
-    const response = await axios.post(api, data);
-    console.log(response);
+    try {
+      setContentLoading(true);
+      setIsDisabled(true);
+      const response = await axios.post(api, data);
+      setContentLoading(false);
+      toast.success("Posted Successfully!");
+      setContentPreview(null);
+      setOpen(false);
+      return response.data.url;
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleContentUpload = async () => {
     const dataURL = await contentUpload();
+    const postData = {
+      content: dataURL,
+      caption,
+      user_id: user?._id,
+    };
+
+    dispatch(uploadPostData(postData));
   };
 
   return (
@@ -155,7 +179,24 @@ export default function UploadPostModal() {
                 className="rounded-pill d-block ms-auto"
                 variant="contained"
               >
-                Next
+                {contentLoading ? (
+                  <>
+                    <Oval
+                      visible={true}
+                      height="20"
+                      width="20"
+                      color="gray"
+                      ariaLabel="oval-loading"
+                      wrapperStyle={{
+                        display: "block",
+                        margin: "auto",
+                      }}
+                      wrapperClass=""
+                    />
+                  </>
+                ) : (
+                  <>Next</>
+                )}
               </Button>
             </div>
           </div>
