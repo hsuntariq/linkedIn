@@ -2,6 +2,7 @@ const User = require("../models/userModel");
 const AsyncHanlder = require("express-async-handler");
 
 const bcrypt = require("bcrypt");
+const userModel = require("../models/userModel");
 
 const registerUser = AsyncHanlder(async (req, res) => {
   const { f_name, l_name, email, password, dob, phone, about, image } =
@@ -71,8 +72,14 @@ const uploadImage = AsyncHanlder(async (req, res) => {
   }
 });
 
+const getUsers = AsyncHanlder(async (req, res) => {
+  const myUsers = await userModel.find().limit(3);
+  res.send(myUsers);
+});
+
 module.exports = {
   registerUser,
   loginUser,
   uploadImage,
+  getUsers,
 };

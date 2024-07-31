@@ -9,3 +9,8 @@ export const uploadPost = async (postData) => {
 
   return response.data;
 };
+
+export const getPosts = async () => {
+  const response = await axios.get(`${base_url}/get-posts`);
+  return response.data;
+};

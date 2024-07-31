@@ -16,6 +16,12 @@ const uploadPost = AsyncHandler(async (req, res) => {
   res.send(newPost);
 });
 
+const getPosts = AsyncHandler(async (req, res) => {
+  const myPosts = await Post.find().sort({ createdAt: -1 });
+  res.send(myPosts);
+});
+
 module.exports = {
   uploadPost,
+  getPosts,
 };

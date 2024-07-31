@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import {
+  getUsers,
   loginUser,
   logout,
   registerUser,
@@ -14,6 +15,7 @@ const initialState = {
   userSuccess: false,
   userError: false,
   userMessage: "",
+  allUsers: [],
 };
 
 export const regUser = createAsyncThunk(
@@ -59,6 +61,14 @@ export const userImageUpload = createAsyncThunk(
     }
   }
 );
+
+export const getUserData = createAsyncThunk("get-user", async (_, thunkAPI) => {
+  try {
+    return await getUsers();
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error.response.data.error);
+  }
+});
 
 export const authSlice = createSlice({
   name: "auth",
@@ -126,6 +136,19 @@ export const authSlice = createSlice({
         state.userSuccess = true;
         state.user = action.payload;
         localStorage.setItem("user", JSON.stringify(action.payload));
+      })
+      .addCase(getUserData.pending, (state, action) => {
+        state.userLoading = true;
+      })
+      .addCase(getUserData.rejected, (state, action) => {
+        state.userLoading = false;
+        state.userError = true;
+        state.userMessage = action.payload;
+      })
+      .addCase(getUserData.fulfilled, (state, action) => {
+        state.userLoading = false;
+        state.userSuccess = true;
+        state.allUsers = action.payload;
       });
   },
 });
