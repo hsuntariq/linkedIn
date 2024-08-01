@@ -3,6 +3,7 @@ import React, { useEffect } from "react";
 import { FaHelicopter, FaPlus } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserData } from "../../features/authentication/authSlice";
+import { Link } from "react-router-dom";
 
 const UserList = () => {
   const { allUsers } = useSelector((state) => state.auth);
@@ -20,7 +21,7 @@ const UserList = () => {
         {allUsers?.map((item, index) => {
           return (
             <>
-              <div className="d-flex gap-3 my-3">
+              <div className="d-flex gap-3 my-1">
                 <img
                   width={50}
                   height={50}
@@ -33,14 +34,16 @@ const UserList = () => {
                   alt=""
                 />
                 <div className="d-flex flex-column ">
-                  <h6 className="text-capitalize">
-                    {item?.f_name} {item?.l_name}
-                  </h6>
-                  <p className="text-sm">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Repellendus, quisquam?
-                  </p>
-                  <Button variant="outlined" className="rounded-pill">
+                  <Link to="/profile">
+                    <h6 className="text-capitalize">
+                      {item?.f_name} {item?.l_name}
+                    </h6>
+                  </Link>
+                  <p className="text-sm">Lorem ipsum dolor sit am</p>
+                  <Button
+                    variant="outlined"
+                    className="rounded-pill align-self-start"
+                  >
                     <FaPlus /> Follow
                   </Button>
                 </div>
@@ -48,6 +51,18 @@ const UserList = () => {
             </>
           );
         })}
+      </div>
+
+      <div
+        className="card border-0 my-2 rounded-2"
+        style={{ overflow: "hidden", position: "sticky", top: "2rem" }}
+      >
+        <img
+          width={"100%"}
+          src="https://media.licdn.com/media/AAYQAgTPAAgAAQAAAAAAADVuOvKzTF-3RD6j-qFPqhubBQ.png"
+          alt=""
+          className=""
+        />
       </div>
     </>
   );

@@ -6,7 +6,8 @@ import { TiThumbsOk } from "react-icons/ti";
 import { IoIosSend } from "react-icons/io";
 import { BiRepost } from "react-icons/bi";
 import { FaRegCommentDots } from "react-icons/fa";
-const Posts = ({ caption, user_id, content }) => {
+import moment from "moment";
+const Posts = ({ caption, user_id, content, createdAt }) => {
   const { postLoading } = useSelector((state) => state.post);
 
   if (postLoading) {
@@ -88,8 +89,9 @@ const Posts = ({ caption, user_id, content }) => {
                   style={{
                     fontSize: "0.8rem",
                   }}
+                  className="text-secondary"
                 >
-                  16h
+                  {moment(createdAt).fromNow()}
                 </Typography>
               </div>
             </div>

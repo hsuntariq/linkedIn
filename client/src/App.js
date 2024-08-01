@@ -14,11 +14,14 @@ import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import { Toaster } from "react-hot-toast";
 import "react-loading-skeleton/dist/skeleton.css";
+import MyProfile from "./components/userProfile/MyProfile";
+import Header from "./components/Nav";
 
 const App = () => {
   return (
     <>
       <Router>
+        <Header />
         <Routes>
           <Route path="/" element={<Welcome />} />
           <Route path="/article" element={<Article />} />
@@ -28,6 +31,7 @@ const App = () => {
           <Route path="/games" element={<Games />} />
           <Route path="/sign-in" element={<SignIn />} />
           <Route path="/sign-up" element={<SignUp />} />
+          <Route path="/profile" element={<MyProfile />} />
 
           <Route path="*" element={<NotFound />} />
         </Routes>

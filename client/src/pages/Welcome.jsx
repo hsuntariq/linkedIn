@@ -16,7 +16,6 @@ const Welcome = () => {
 
   return (
     <>
-      <Header />
       <FrontPage />
     </>
   );
