@@ -18,39 +18,44 @@ const UserList = () => {
           <h6>Add to your feed</h6>
           <FaHelicopter />
         </div>
-        {allUsers?.map((item, index) => {
-          return (
-            <>
-              <div className="d-flex gap-3 my-1">
-                <img
-                  width={50}
-                  height={50}
-                  className="rounded-circle"
-                  src={
-                    item?.image
-                      ? item?.image
-                      : "https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/LinkedIn_logo_initials.png/480px-LinkedIn_logo_initials.png"
-                  }
-                  alt=""
-                />
-                <div className="d-flex flex-column ">
-                  <Link to="/profile">
-                    <h6 className="text-capitalize">
-                      {item?.f_name} {item?.l_name}
-                    </h6>
-                  </Link>
-                  <p className="text-sm">Lorem ipsum dolor sit am</p>
-                  <Button
-                    variant="outlined"
-                    className="rounded-pill align-self-start"
-                  >
-                    <FaPlus /> Follow
-                  </Button>
+        {allUsers
+          ?.slice(allUsers?.length - 3, allUsers?.length)
+          ?.map((item, index) => {
+            return (
+              <>
+                <div className="d-flex gap-3 my-1">
+                  <img
+                    width={50}
+                    height={50}
+                    className="rounded-circle"
+                    src={
+                      item?.image
+                        ? item?.image
+                        : "https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/LinkedIn_logo_initials.png/480px-LinkedIn_logo_initials.png"
+                    }
+                    alt=""
+                  />
+                  <div className="d-flex flex-column ">
+                    <Link
+                      className="text-decoration-none text-dark"
+                      to={`/profile/${item?._id}`}
+                    >
+                      <h6 className="text-capitalize">
+                        {item?.f_name} {item?.l_name}
+                      </h6>
+                    </Link>
+                    <p className="text-sm">Lorem ipsum dolor sit am</p>
+                    <Button
+                      variant="outlined"
+                      className="rounded-pill align-self-start"
+                    >
+                      <FaPlus /> Follow
+                    </Button>
+                  </div>
                 </div>
-              </div>
-            </>
-          );
-        })}
+              </>
+            );
+          })}
       </div>
 
       <div

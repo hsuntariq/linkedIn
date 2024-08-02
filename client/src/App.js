@@ -31,7 +31,7 @@ const App = () => {
           <Route path="/games" element={<Games />} />
           <Route path="/sign-in" element={<SignIn />} />
           <Route path="/sign-up" element={<SignUp />} />
-          <Route path="/profile" element={<MyProfile />} />
+          <Route path="/profile/:id" element={<MyProfile />} />
 
           <Route path="*" element={<NotFound />} />
         </Routes>

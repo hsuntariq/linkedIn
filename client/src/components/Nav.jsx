@@ -15,6 +15,7 @@ import { Typography } from "@mui/material";
 import { SlLogout } from "react-icons/sl";
 import { logUserOut } from "../features/authentication/authSlice";
 import ImageModal from "./userProfile/ImageModal";
+import { IoPersonSharp } from "react-icons/io5";
 
 function Header() {
   const { user } = useSelector((state) => state.auth);
@@ -71,6 +72,15 @@ function Header() {
                 <div className="d-flex border border-top-0 border-bottom-0 px-4 align-items-center flex-column">
                   <MdLaptopMac />
                   <p className="text-secondary m-0 p-0 xs-small">Get the app</p>
+                </div>
+              </Link>
+              <Link
+                className="text-dark text-decoration-none"
+                to={`/profile/${user?._id}`}
+              >
+                <div className="d-flex border border-top-0 border-bottom-0 px-4 align-items-center flex-column">
+                  <IoPersonSharp />
+                  <p className="text-secondary m-0 p-0 xs-smal">See Profile</p>
                 </div>
               </Link>
               {!user ? (

@@ -2,8 +2,17 @@ import React from "react";
 import { FaLink, FaPlus, FaTheRedYeti } from "react-icons/fa";
 import { PiDotsThreeOutlineFill } from "react-icons/pi";
 import { Button } from "@mui/material";
+import { useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const ProfileHeader = () => {
+  const { id } = useParams();
+  const { allUsers, userLoading } = useSelector((state) => state.auth);
+
+  const myUser = allUsers.find((item, index) => {
+    return item?._id == id;
+  });
+
   return (
     <>
       <div className="card border-0 p-0">
@@ -16,11 +25,17 @@ const ProfileHeader = () => {
             width={150}
             height={150}
             style={{ marginTop: "-100px" }}
-            src="https://media.licdn.com/dms/image/C4D0BAQFvneORoERVkw/company-logo_200_200/0/1630512029493/hec_pakistan_logo?e=1730332800&v=beta&t=XvlRGMiWVX-iLE9QNVE5nQejQhfSrg31nVi7upSBExo"
+            src={
+              myUser?.image
+                ? myUser?.image
+                : "https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/LinkedIn_logo_initials.png/480px-LinkedIn_logo_initials.png"
+            }
             alt=""
             className="profile"
           />
-          <h2>HEC Pakistan</h2>
+          <h2 className="text-capitalize">
+            {myUser?.f_name} {myUser?.l_name}
+          </h2>
           <p>
             Facilitating Institutions of Higher Learning to Serve as an Engine
             of Socio-Economic Development of Pakistan

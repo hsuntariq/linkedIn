@@ -6,17 +6,23 @@ import {
 } from "react-icons/fa";
 import { TfiArrowCircleLeft, TfiArrowCircleRight } from "react-icons/tfi";
 import PostCard from "./PostCard";
+import { useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const ProfileHome = () => {
+  const { id } = useParams();
+  const { allUsers, userLoading } = useSelector((state) => state.auth);
+
+  const myUser = allUsers.find((item, index) => {
+    return item?._id == id;
+  });
+
   return (
     <>
       <div className="card my-4 border-0">
         <div className="p-4">
           <h2>About</h2>
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Nam
-            perferendis magnam corporis alias, quae commodi?
-          </p>
+          <p>{myUser?.about ? myUser?.about : "Nothing to show"}</p>
         </div>
         <hr />
 
@@ -34,7 +40,10 @@ const ProfileHome = () => {
           </div>
         </div>
         <div className="p-4">
-          <div className="d-flex">
+          <div
+            className="overflow-x-scroll d-flex gap-4 mini-posts"
+            style={{ overflowX: "scroll" }}
+          >
             <PostCard />
             <PostCard />
             <PostCard />

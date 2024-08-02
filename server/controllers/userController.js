@@ -73,7 +73,7 @@ const uploadImage = AsyncHanlder(async (req, res) => {
 });
 
 const getUsers = AsyncHanlder(async (req, res) => {
-  const myUsers = await userModel.find().limit(3);
+  const myUsers = await userModel.find();
   res.send(myUsers);
 });
 
